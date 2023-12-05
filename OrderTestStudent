@@ -1,0 +1,112 @@
+import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+public class OrderTestStudent {
+	Order one; Order two;
+	@Before
+	public void setUp() throws Exception {
+		one = new Order(12,Day.MONDAY, new Customer("Pete", 12));
+		two = new Order(19, Day.SUNDAY, new Customer("George", 57));
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		one = two = null;
+	}
+
+	@Test
+	public void testOrder() {
+		fail("Not yet implemented");
+	}
+	@Test
+	public void testAddNewBeverage() {
+		one.addNewBeverage("Fruit Smoothie", Size.MEDIUM, 0, false);
+		one.addNewBeverage("Alcohol", Size.SMALL);
+		one.addNewBeverage("Smoothie", Size.SMALL, 0, false);
+		assertEquals(one.getBeverage(1), new Smoothie("Fruit Smoothie", Size.MEDIUM, 0, false));
+		assertEquals(one.getBeverage(2), new Alcohol("Alcohol", Size.SMALL, one.isWeekend()));
+		assertEquals(one.getBeverage(3), new Smoothie("Smoothie", Size.SMALL, 0, false));
+		two.addNewBeverage("Coffee", Size.LARGE, true, true);
+		two.addNewBeverage("Alcohol", Size.LARGE);
+		two.addNewBeverage("Smoothie", Size.LARGE, 0, true);
+		assertEquals(two.getBeverage(0), new Coffee("Coffee", Size.LARGE, true, true));
+		assertEquals(two.getBeverage(1), new Alcohol("Alcohol", Size.LARGE, one.isWeekend()));
+		assertEquals(two.getBeverage(2), new Smoothie("Smoothie", Size.LARGE, 0, true));
+	}
+	@Test
+	public void testCalcOrderTotal() {
+		assertTrue(7.0 == one.calcOrderTotal());
+		assertTrue(15.1 == two.calcOrderTotal());
+	}
+
+	@Test
+	public void testCompareTo() {
+		System.out.println("First Order Number:" + one.getOrderNo());
+		System.out.println("Second Order Number: " + two.getOrderNo());
+		assertFalse(one.compareTo(two) == 0);
+	}
+	@Test
+	public void testFindNumOfBeveType() {
+		assertEquals(2, one.findNumOfBeveType(Type.SMOOTHIE));
+		assertEquals(1, two.findNumOfBeveType(Type.ALCOHOL));
+	}
+	@Test
+	public void testGenerateOrder() {
+		int orderNum = one.generateOrder();
+		assertTrue(orderNum > 10000 && orderNum < 90000);
+	}
+
+	@Test
+	public void testGetBeverage() {
+		one.addNewBeverage("Vodka", Size.MEDIUM);
+		assertEquals(new Alcohol("Vodka", Size.MEDIUM, one.isWeekend()), one.getBeverage(0));
+	}
+	@Test
+	public void testGetCustomer() {
+		assertEquals(new Customer("George", 57), two.getCustomer());
+	}
+
+	@Test
+	public void testGetDay() {
+		assertEquals(Day.MONDAY,one.getDay());
+	}
+
+	@Test
+	public void testGetOrderDay() {
+		assertEquals(Day.SUNDAY,two.getDay());
+	}
+
+	@Test
+	public void testGetOrderNo() {
+		assertFalse(one.getOrderNo() == two.getOrderNo());
+	}
+	@Test
+	public void testGetOrderTime() {
+		Order three = new Order(10,Day.WEDNESDAY, new Customer("Joshua", 11));
+		assertEquals(10,three.getOrderTime());
+	}
+	@Test
+	public void testGetTotalItems() {
+		assertEquals(3, two.getTotalItems());
+	}
+	@Test
+	public void testIsWeekend() {
+		assertEquals(false, one.isWeekend());
+		assertEquals(true, two.isWeekend());
+	}
+	@Test
+	public void testToString() {
+		String str = "Order Number: " + two.getOrderNo() + "\n" + "Time: " + two.getOrderTime() 
+		+ "\n" + "Day: " + two.getOrderDay() + "\n" + "Customer Name: " + two.getCustomer().getName() + "\n"
+		+ "Age: " + two.getCustomer().getAge() + "\n";
+		
+		for(int i = 0; i < 3; i++) {
+			str += two.getBeverage(i);
+			str += "\n";
+		}
+		assertEquals(str, two.toString());
+	}
+}
