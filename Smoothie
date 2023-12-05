@@ -1,0 +1,46 @@
+
+public class Smoothie extends Beverage {
+	private int numOfExtraFruits;
+	private boolean proteinPowder;
+
+	public Smoothie(String bevName, Size size, int numOfFruits, boolean addProtein) {
+		super(bevName, Type.SMOOTHIE, size);
+		numOfExtraFruits = numOfFruits;
+		proteinPowder = addProtein;
+	}
+
+	public double calcPrice() {
+		double price = this.addSizePrice();
+		if(proteinPowder == true) {
+			price += 1.50;
+		}
+		price += this.getNumOfFruits() * .50;
+		return price;
+	}
+
+	public boolean equals(Object anotherBev) {
+		if(super.equals(anotherBev)) {
+			if(this.getAddProtein() == ((Smoothie) anotherBev).getAddProtein()) {
+				if(this.getNumOfFruits() == ((Smoothie) anotherBev).getNumOfFruits()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean getAddProtein() {
+		return proteinPowder;	
+	}
+
+	public int getNumOfFruits() {
+		return numOfExtraFruits;
+	}
+
+	public String toString() {
+		String str = "Name: " +  this.getBevName() + " ,"  +  "Size: " + this.getSize() + " ," + " Protein Added: " 
+		+ this.getAddProtein() + " ," + "Number of Extra Fruit Added: " + this.getNumOfFruits() + " ," + "Price: " + this.calcPrice();
+	return str;
+	}
+
+}
