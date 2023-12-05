@@ -1,0 +1,62 @@
+
+public abstract class Beverage {
+	private String bevName; 
+	private Type type;
+	private Size size;
+	private final double BASE_PRICE = 2;
+	private final double SIZE_PRICE = 1;
+
+	public Beverage(String bevName, Type type, Size size) {
+		this.bevName = bevName;
+		this.type = type;
+		this.size = size;
+	}
+
+	public double addSizePrice() {
+		switch(size) {
+		case SMALL:
+			return BASE_PRICE + SIZE_PRICE * 0;
+		case MEDIUM: 
+			return BASE_PRICE + SIZE_PRICE * 1;
+		case LARGE: 
+			return BASE_PRICE + SIZE_PRICE * 2;
+		default:
+			return BASE_PRICE + SIZE_PRICE * 0;
+		}
+	}
+
+	public abstract double calcPrice();
+
+	public double getBasePrice() {
+		return BASE_PRICE;
+	}
+
+	public String getBevName() {
+		return bevName;
+	}
+
+	public Size getSize() {
+		return size;
+	}
+
+	public Type getType() {
+		return type;
+	}
+
+	public boolean equals(Object anotherBev) {
+		if(super.equals(((Beverage) anotherBev).getBevName())) {
+			if(super.equals(((Beverage)anotherBev).getType())) {
+				if(super.equals(((Beverage)anotherBev).getSize())){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public String toString() {
+		String str = bevName + "," + size;
+		return str;
+	}
+
+}
