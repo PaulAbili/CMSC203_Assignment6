@@ -1,0 +1,48 @@
+import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+public class AlcoholTestStudent {
+Alcohol one; Alcohol two;
+	@Before
+	public void setUp() throws Exception {
+		one = new Alcohol("Vodka", Size.SMALL, false);
+		two = new Alcohol("Beer", Size.LARGE, true);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		one = two = null;
+	}
+
+	@Test
+	public void testAlcohol() {
+		fail("Not yet implemented");
+	}
+	@Test
+	public void testCalcPrice() {
+		assertTrue(2 == one.calcPrice());
+		assertTrue(4.6 == two.calcPrice());
+	}
+	
+	@Test
+	public void testEquals() {
+		
+	}
+	
+	@Test
+	public void testIsWeekend() {
+		assertTrue(false == one.isWeekend());
+		assertTrue(true == two.isWeekend());
+	}
+	
+	
+	@Test
+	public void testToString() {
+		String str = "Name: " +  "Vodka" + " ," +  "Size: " + "SMALL"
+		+ " ," + " Offered During Weekend?: " + "false" + " ," + "Price: " + "2.0";
+		assertEquals(str, one.toString());
+	}
+}
