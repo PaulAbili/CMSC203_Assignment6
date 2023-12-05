@@ -1,0 +1,275 @@
+import java.util.ArrayList;
+public class BevShop extends Object implements BevShopInterface{
+
+	int MIN_AGE_FOR_ALCOHOL = 21;  //Minimum age for offering alcohol drink
+	int MAX_ORDER_FOR_ALCOHOL= 3;   /*Maximum number of alcohol beverages
+										that can be ordered within an order  */
+	int MIN_TIME= 8;				//earliest time for the order
+	int MAX_TIME= 23;				//latest  time for the order
+	int MAX_FRUIT = 5;				//Maximum number of fruits that this shop offers for SMOOTHIE beverage
+	Order currentOrder; 
+	ArrayList<Order> orderList;
+
+	public BevShop() {
+		orderList = new ArrayList<Order>();
+	}
+	/**
+	 * Checks if the time is valid (between 8 and 23 )
+	 *
+	 * @param time
+	 *            time represents the time
+	 * @return true if times is within the range of 8 to 23 , false otherwise
+	 */
+	public boolean isValidTime(int time) {
+		if(time > MIN_TIME && time < MAX_TIME) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * returns the constant value for the minimum age for offering Alcohol drink
+	 *
+	 * @return returns the value for the minimum age for offering Alcohol drink
+	 */
+	public int getMaxNumOfFruits() {
+		return MAX_FRUIT;
+	}
+
+	/**
+	 * returns the constant value for the Maximum age for offering Alcohol drink
+	 *
+	 * @return returns the value for the minimum age for offering Alcohol drink
+	 */
+	public int getMinAgeForAlcohol() {
+		return MIN_AGE_FOR_ALCOHOL;
+	}
+
+	/**
+	 *  returns true if the passed parameter exceeds the Maximum FRUIT allowed
+	 *
+	 * @param numOfFruits
+	 *            number of fruits
+	 * @return true if the passed parameter exceeds the MAXIUM number of fruits
+	 *         allowed for the SMOTHIE drink, false otherwise
+	 */
+	public boolean isMaxFruit(int numOfFruits) {
+		if(numOfFruits > MAX_FRUIT) {
+			return true;
+		} else { 
+			return false;
+		}
+	}
+
+	/**
+	 * returns constant maximum number of alcohol beverages/per order offered by
+	 * the beverage shop
+	 *
+	 * @return constant maximum number of alcohol beverages/per order offered by
+	 *         the beverage shop
+	 */
+	public int getMaxOrderForAlcohol() {
+		return MAX_ORDER_FOR_ALCOHOL;
+	}
+
+	/**
+	 * checks if the number of alcohol beverages for the current order has
+	 * reached the maximum
+	 *
+	 * @return true if number of alcohol drinks for the current order has
+	 *         reached the maximum , false otherwise
+	 */
+	public boolean isEligibleForMore() {
+		if(this.getMaxOrderForAlcohol() > currentOrder.findNumOfBeveType(Type.ALCOHOL)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * returns the number of alcohol drinks for the current order
+	 *
+	 * @return returns the number of alcohol drinks for the current order
+	 */
+	public int getNumOfAlcoholDrink() {
+		return currentOrder.findNumOfBeveType(Type.ALCOHOL);
+	}
+
+	/**
+	 * check the valid age for the alcohol drink
+	 *
+	 * @param age
+	 *            the age
+	 * @return returns true if age is more than minimum eligible age , false
+	 *         otherwise
+	 */
+	public boolean isValidAge(int age) {
+		if(age >= MIN_AGE_FOR_ALCOHOL) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Creates a new order , NO BEVERAGE is added to the order yet
+	 *
+	 * @param time
+	 *            time of the order
+	 * @param day
+	 *            day of the order of type DAY
+	 * @param customerName
+	 *            customer name
+	 * @param customerAge
+	 *            customer age
+	 */
+
+	public void startNewOrder(int time, Day day, String customerName, int customerAge) {
+		Order other = new Order(time, day, new Customer(customerName, customerAge));
+		orderList.add(other);
+		currentOrder = other;
+	}
+
+	/**
+	 * process the Coffee order for the current order by adding it to the
+	 * current order
+	 *
+	 * @param bevName
+	 *            beverage name
+	 * @param size
+	 *            beverage size
+	 * @param extraShot
+	 *            true if the coffee beverage has extra shot , false otherwise
+	 * @param extraSyrup
+	 *            true if the coffee beverage has extra syrup , false otherwise
+	 */
+	public void processCoffeeOrder(String bevName, Size size, boolean extraShot, boolean extraSyrup) {
+		currentOrder.addNewBeverage(bevName, size, extraShot, extraSyrup);
+	}
+
+	/**
+	 * process the Alcohol order for the current order by adding it to the
+	 * current order
+	 *
+	 * @param bevName
+	 *            beverage name
+	 * @param size
+	 *            beverage size
+	 */
+	public void processAlcoholOrder(String bevName, Size size) {
+		currentOrder.addNewBeverage(bevName, size);
+	}
+
+	/**
+	 * process the Smoothie order for the current order by adding it to the
+	 * current order
+	 *
+	 * @param bevName
+	 *            beverage name
+	 * @param size
+	 *            beverage size
+	 * @param numOfFruits
+	 *            number of fruits to be added
+	 * @param addProtein
+	 *            true if protein is added , false otherwise
+	 */
+
+	public void processSmoothieOrder(String bevName, Size size, int numOfFruits, boolean addProtein) {
+		currentOrder.addNewBeverage(bevName, size, numOfFruits, addProtein);
+	}
+
+	/**
+	 * locate an order based on the order number
+	 *
+	 * @param orderNo
+	 *            the order number
+	 * @return the index of the order in the list of Orders if found or -1 if
+	 *         not found
+	 */
+
+	public int findOrder(int orderNo) {
+		for(int i = 0; i < orderList.size(); i++) {
+			if(orderList.get(i).getOrderNo() == orderNo) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * locates an order in the list of orders and returns the total value on the
+	 * order.
+	 *
+	 * @param orderNo
+	 *            the order number
+	 * @returns the calculated price on this order.
+	 */
+	public double totalOrderPrice(int orderNo) {
+		return orderList.get(orderNo).calcOrderTotal();
+	}
+
+	/**
+	 * Calculates the total sale of all the orders for this beverage shop
+	 *
+	 * @return the total sale of all the orders
+	 */
+	public double totalMonthlySale() {
+		double total = 0;
+		for(int i = 0; i < orderList.size(); i++) {
+			total += orderList.get(i).calcOrderTotal();
+		}
+		return total;
+	}
+
+	/**
+	 * returns total numbers of orders within the month
+	 *
+	 * @returns total numbers of orders within the month
+	 */
+	public int totalNumOfMonthlyOrders() {
+		return orderList.size();
+	}
+
+	/**
+	 * returns the current Order located in the index in the list of orders.
+	 * Notes: this method returns the shallow copy of the order
+	 *
+	 * @return the current order
+	 */
+	public Order getCurrentOrder() {
+		return currentOrder;
+	}
+
+	/**
+	 * returns Order in the list of orders at the index Notes: this method
+	 * returns the shallow copy of the order
+	 *
+	 * @return Order in the list of orders at the index
+	 */
+	public Order getOrderAtIndex(int index) {
+		return orderList.get(index);
+	}
+
+	/**
+	 * sorts the orders within this bevShop using the Selection sort algorithm
+	 */
+	public void sortOrders() {
+		Order tempOrder;
+		int minIndex;
+		for(int i = 0; i < orderList.size() - 1; i++) {
+			minIndex = i;
+			tempOrder = orderList.get(i);
+			for(int j = i + 1; j < orderList.size(); i++) {
+				if(orderList.get(i).getOrderNo() < tempOrder.getOrderNo()) {
+					tempOrder = orderList.get(j);
+					minIndex = j;
+				}
+			}
+		orderList.set(minIndex, orderList.get(i));
+		orderList.set(i,tempOrder);
+		}
+	}
+
+}
