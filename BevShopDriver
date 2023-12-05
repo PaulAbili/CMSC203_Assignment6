@@ -1,0 +1,323 @@
+/*
+ * Class: CMSC203 
+ * Instructor: Prof. Grinberg
+ * Description: (Give a brief description for each Class)
+ * Due: 12/04/2007
+ * Platform/compiler:
+ * I pledge that I have completed the programming  
+ * assignment independently. I have not copied the code 
+ * from a student or any source. I have not given my code 
+ * to any student.
+ *  Print your Name here: Paul
+ */
+
+import java.util.Scanner;
+public class BevShopDriver {
+
+	public static void main(String[] args) {
+		BevShop shop = new BevShop();
+		int time = 0; String day; String name; int age = 0; Day trueDay = Day.FRIDAY;
+		String drinkName; String drinkSize; Size trueSize = Size.SMALL; String answer;
+		boolean loop0 = false; boolean loop1 = false; boolean loop2 = false; boolean loop3 = false;
+		boolean loop4 = false; boolean loop5 = false;
+		boolean choice = false; boolean para1 = false; boolean para2 = false; int para3 = 0;
+		int counter = 0;
+		Scanner input = new Scanner(System.in);
+		while(loop0 == false) {
+			loop0 = true;
+			System.out.println("The current order in process can have at most " + shop.MAX_ORDER_FOR_ALCOHOL  + " alcholic beverages");
+			System.out.println("The minimum age to order an alcholic drink is " + shop.MIN_AGE_FOR_ALCOHOL);
+			System.out.println("Please Start a new Order: ");
+			System.out.print("Please Enter your Name: ");
+			name = input.nextLine();
+			System.out.print("Please Enter your Age: ");
+			age = input.nextInt();
+
+			while(loop1 == false) {
+				System.out.print("What Time is it?: ");
+				time = input.nextInt();
+				if(shop.isValidTime(time)) {
+					loop1 = true;
+				} else {
+					System.out.println("Not a Valid Answer: Choose A Time Between 8-23 (Military)");
+				}
+			}
+			input.nextLine();
+			while(loop2 == false) {
+				System.out.print("What Day is It?: ");
+				day = input.nextLine();
+				if(day.equalsIgnoreCase("Monday") || day.equalsIgnoreCase("Tuesday") || day.equalsIgnoreCase("Wednesday") 
+						|| day.equalsIgnoreCase("Thurday") || day.equalsIgnoreCase("Friday") || day.equalsIgnoreCase("Saturday") 
+						|| day.equalsIgnoreCase("Sunday")){
+					loop2 = true;
+					if(day.equalsIgnoreCase("Monday")){
+						trueDay = Day.MONDAY;
+					}
+					if(day.equalsIgnoreCase("Tuesday")){
+						trueDay = Day.TUESDAY;
+					}
+					if(day.equalsIgnoreCase("Wednesday")){
+						trueDay = Day.WEDNESDAY;
+					}
+					if(day.equalsIgnoreCase("Thursday")){
+						trueDay = Day.THURSDAY;
+					}
+					if(day.equalsIgnoreCase("Friday")){
+						trueDay = Day.FRIDAY;
+					}
+					if(day.equalsIgnoreCase("Saturday")){
+						trueDay = Day.SATURDAY;
+					}
+					if(day.equalsIgnoreCase("Sunday")) {
+						trueDay = Day.SUNDAY;
+					}
+				} else {
+					System.out.println("The day you entered was incorrect, please reneter!");
+				}
+			}
+			loop1 = loop2 = false;
+			// Start of Alcohol
+			shop.startNewOrder(time, trueDay, name, age);
+			if(shop.getMinAgeForAlcohol() <= age) {
+				while(loop1 == false) {
+					loop1 = true;
+					System.out.print("Would You like Alcohol?(y/n): ");
+					answer = input.nextLine();
+					if(answer.equalsIgnoreCase("y")){
+						while(loop2 == false) {
+							System.out.print("What is the name of the alcohol you would like?: ");
+							drinkName = input.nextLine();
+							while(loop3 == false) {
+								System.out.print("What size would you like(Small/Medium/Large)?: ");
+								drinkSize = input.nextLine(); 
+								if(drinkSize.equalsIgnoreCase("Small") 
+										|| drinkSize.equalsIgnoreCase("Medium") || drinkSize.equalsIgnoreCase("Large")) {
+									loop3 = true;
+									if(drinkSize.equalsIgnoreCase("Small") ) {
+										trueSize = Size.SMALL;
+									}
+									if(drinkSize.equalsIgnoreCase("Medium")) {
+										trueSize = Size.MEDIUM;
+									}
+									if(drinkSize.equalsIgnoreCase("Large")) {
+										trueSize = Size.LARGE;
+									}
+								} else {
+									System.out.println("Invalid Answer Please Try Again!");
+								}
+							}
+							shop.processAlcoholOrder(drinkName, trueSize);
+							System.out.print("Would you like another?(y/n): ");
+							answer = input.nextLine();
+							while(choice == false) {
+								if(answer.equalsIgnoreCase("y")) {
+									choice = true;
+								} else if(answer.equalsIgnoreCase("n")) {
+									choice = true;
+								} else {
+									System.out.println("Invalid Answer!");
+								}
+							}
+							if(shop.isEligibleForMore() && answer.equalsIgnoreCase("n")) { 
+								loop2 = true;
+							} else if((shop.isEligibleForMore()) && answer.equalsIgnoreCase("y")) {
+								choice = false;
+								loop2 = false;
+								loop3 = false;
+							} else {
+								System.out.println("Sorry, you are at our limit ... ");
+								loop2 = true;
+							}
+						}
+
+					} else if(answer.equalsIgnoreCase("n")) {
+						loop1 = true;
+					} else {
+						System.out.println("Invalid Answer Re-Enter Your Answer Please!");
+					}
+
+				}
+			}
+			loop1 = loop2 = loop3 = loop4 = loop5 = choice = para1 = para2 = false;
+			drinkName = drinkSize = answer = null;
+
+			System.out.println("The Total Price on the Current Order: " + shop.totalOrderPrice(counter));
+			// Start of Coffee 
+			while(loop1 == false) {
+				loop1 = true;
+				System.out.print("Would You like Coffee?(y/n): ");
+				answer = input.nextLine();
+				if(answer.equalsIgnoreCase("y")){
+					while(loop2 == false) {
+						loop2 = true;
+						System.out.print("What is the name of the coffee you would like?: ");
+						drinkName = input.nextLine();
+						while(loop3 == false) {
+							System.out.print("What size would you like(Small/Medium/Large)?: ");
+							drinkSize = input.nextLine(); 
+							if(drinkSize.equalsIgnoreCase("Small") 
+									|| drinkSize.equalsIgnoreCase("Medium") || drinkSize.equalsIgnoreCase("Large")) {
+								loop3 = true;
+								if(drinkSize.equalsIgnoreCase("Small") ) {
+									trueSize = Size.SMALL;
+								}
+								if(drinkSize.equalsIgnoreCase("Medium")) {
+									trueSize = Size.MEDIUM;
+								}
+								if(drinkSize.equalsIgnoreCase("Large")) {
+									trueSize = Size.LARGE;
+								}
+							} else {
+								System.out.println("Invalid Answer Please Try Again!");
+							}
+						}
+						while(loop4 == false) {
+							System.out.print("Would you like Extra Shot(y/n)?: ");
+							answer = input.nextLine();
+							if(answer.equalsIgnoreCase("y")) {
+								loop4 = true;
+								para1 = true;
+							} else if(answer.equalsIgnoreCase("n")) {
+								loop4 = true;
+								para1 = false;
+							} else {
+								System.out.println("Invalid Answer!");
+							}
+						}
+						while(loop5 == false) {
+							System.out.print("Would you like Extra Syrup(y/n)?: ");
+							answer = input.nextLine();
+							if(answer.equalsIgnoreCase("y")) {
+								loop5 = true;
+								para2 = true;
+							} else if(answer.equalsIgnoreCase("n")) {
+								loop5 = true;
+								para2 = false;
+							} else {
+								System.out.println("Invalid Answer!");
+							}
+						}
+						shop.processCoffeeOrder(drinkName, trueSize, para1, para2);
+						System.out.print("Would you like another?(y/n): ");
+						answer = input.nextLine();
+						while(choice == false) {
+							if(answer.equalsIgnoreCase("y")) {
+								choice = true;
+								loop2 = false;
+							} else if(answer.equalsIgnoreCase("n")) {
+								choice = true;
+							} else {
+								System.out.println("Invalid Answer!");
+							}
+						}
+					}
+
+				} else if(answer.equalsIgnoreCase("n")) {
+					loop1 = true;
+				} else {
+					System.out.println("Invalid Answer Re-Enter Your Answer Please!");
+				}
+
+			}
+			loop1 = loop2 = loop3 = loop4 = loop5 = choice = para1 = para2 = false;
+			drinkName = drinkSize = answer = null;
+			System.out.println("The Total Price on the Current Order: " + shop.totalOrderPrice(counter));
+
+			//Start of Smoothie
+			while(loop1 == false) {
+				loop1 = true;
+				System.out.print("Would You like a Smoothie?(y/n): ");
+				answer = input.nextLine();
+				if(answer.equalsIgnoreCase("y")){
+					while(loop2 == false) {
+						loop2 = true;
+						System.out.print("What is the name of the smoothie you would like?: ");
+						drinkName = input.nextLine();
+						while(loop3 == false) {
+							System.out.print("What size would you like(Small/Medium/Large)?: ");
+							drinkSize = input.nextLine(); 
+							if(drinkSize.equalsIgnoreCase("Small") 
+									|| drinkSize.equalsIgnoreCase("Medium") || drinkSize.equalsIgnoreCase("Large")) {
+								loop3 = true;
+								if(drinkSize.equalsIgnoreCase("Small") ) {
+									trueSize = Size.SMALL;
+								}
+								if(drinkSize.equalsIgnoreCase("Medium")) {
+									trueSize = Size.MEDIUM;
+								}
+								if(drinkSize.equalsIgnoreCase("Large")) {
+									trueSize = Size.LARGE;
+								}
+							} else {
+								System.out.println("Invalid Answer Please Try Again!");
+							}
+						}
+						while(loop4 == false) {
+							System.out.print("Would you like an extra fruit(y/n)?: ");
+							answer = input.nextLine();
+							if(answer.equalsIgnoreCase("y") && para3!= 5) {
+								para3++;
+							}else if(answer.equalsIgnoreCase("y") && para3 == 5) {
+								System.out.println("Sorry ... Your At your limit!");
+								loop4 = true;
+							}else if(answer.equalsIgnoreCase("n")) {
+								loop4 = true;
+							} else {
+								System.out.println("Invalid Answer!");
+							}
+						}
+						while(loop5 == false) {
+							System.out.print("Would you like Protein Powder(y/n)?: ");
+							answer = input.nextLine();
+							if(answer.equalsIgnoreCase("y")) {
+								loop5 = true;
+								para2 = true;
+							} else if(answer.equalsIgnoreCase("n")) {
+								loop5 = true;
+								para2 = false;
+							} else {
+								System.out.println("Invalid Answer!");
+							}
+						}
+						shop.processSmoothieOrder(drinkName, trueSize, para3, para2);
+						System.out.print("Would you like another?(y/n): ");
+						answer = input.nextLine();
+						while(choice == false) {
+							if(answer.equalsIgnoreCase("y")) {
+								choice = true;
+								loop2 = false;
+							} else if(answer.equalsIgnoreCase("n")) {
+								choice = true;
+							} else {
+								System.out.println("Invalid Answer!");
+							}
+						}
+					}
+
+				} else if(answer.equalsIgnoreCase("n")) {
+					loop1 = true;
+				} else {
+					System.out.println("Invalid Answer Re-Enter Your Answer Please!");
+				}
+
+			}
+			loop1 = loop2 = loop3 = loop4 = loop5 = choice = para1 = para2 = false;
+			drinkName = drinkSize = answer = null;
+			para3 = 0;
+			System.out.println("The Total Price on the Current Order: " + shop.totalOrderPrice(counter));
+
+			System.out.print("Would you like to Start a new order(y/n)?: ");
+			answer = input.nextLine();
+			if(answer.equalsIgnoreCase("y")) {
+				loop0 = false;
+				System.out.println("*------------------------------------------------------------------------*");
+			} else if(answer.equalsIgnoreCase("n")) {
+				System.out.println("*------------------------------------------------------------------------*");
+			} else {
+				System.out.println("Invalid Answer!");
+			}
+		}
+		input.close();
+		System.out.println("Amount for all Orders: " + shop.totalMonthlySale());
+	}
+}
