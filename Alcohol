@@ -1,0 +1,37 @@
+
+public class Alcohol extends Beverage{
+	private boolean weekend;
+
+	public Alcohol(String bevName, Size size, boolean isWeekend) {
+		super(bevName, Type.ALCOHOL, size);
+		weekend = isWeekend;
+	}
+
+	public double calcPrice() {
+		double price = this.addSizePrice();
+		if(this.isWeekend() == true) {
+			price +=.60;
+		}
+		return price;
+	}
+
+	public boolean equals(Object anotherBev) {
+		if(super.equals(anotherBev)) {
+			if(this.isWeekend() == ((Alcohol)anotherBev).isWeekend()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean isWeekend() {
+		return weekend;
+	}
+
+	public String toString() {
+		String str = "Name: " +  this.getBevName() + " ," +  "Size: " + this.getSize() 
+		+ " ," + " Offered During Weekend?: " + weekend + " ," + "Price: " + calcPrice();
+		return str;
+	}
+
+}
