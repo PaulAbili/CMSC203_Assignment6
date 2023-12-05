@@ -1,0 +1,53 @@
+import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+public class SmoothieTestStudent {
+	Smoothie one; Smoothie two;
+	@Before
+	public void setUp() throws Exception {
+		one = new Smoothie("Mango Smoothie", Size.SMALL, 1, false);
+		two = new Smoothie("Green Juice", Size.LARGE, 5, true);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		one = two = null;
+	}
+
+	@Test
+	public void testSmoothie() {
+		fail("Not yet implemented");
+	}
+	@Test
+	public void testCalcPrice() {
+		assertTrue(2.5 == one.calcPrice());
+		assertTrue(8 == two.calcPrice());
+	}
+
+	@Test
+	public void testEquals() {
+
+	}
+
+	@Test
+	public void testGetAddProtein() {
+		assertTrue(false == one.getAddProtein());
+		assertTrue(true == two.getAddProtein());
+	}
+
+	@Test
+	public void testGetNumOfFruits() {
+		assertEquals(1, one.getNumOfFruits());
+		assertEquals(5, two.getNumOfFruits());
+	}
+
+	@Test
+	public void testToString() {
+		String str = "Name: " + "Mango Smoothie" + " ,"  +  "Size: " + "SMALL" + " ," + " Protein Added: " 
+				+ "false" + " ," + "Number of Extra Fruit Added: " + "1" + " ," + "Price: " + 2.5;
+		assertEquals(str, one.toString());
+	}
+}
